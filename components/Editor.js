@@ -188,6 +188,7 @@ export default function Editor({ html }) {
       type: "format",
       icon: <ChatBubbleLeftEllipsisIcon className="size-3.5" />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
+      shortcut: "⌘ ⇧ B",
       divideAfter: true,
     },
     {

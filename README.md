@@ -61,24 +61,24 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to start usi
 TextE Editor provides several formatting options accessible through the toolbar:
 
 ### Text Formatting
-- Bold (⌘B)
-- Italic (⌘I)
-- Underline (⌘U)
+- Bold (`⌘ B`)
+- Italic (`⌘ I`)
+- Underline (`⌘ U`)
 
 ### Headings
-- H1 (⌘⌥1)
-- H2 (⌘⌥2)
-- H3 (⌘⌥3)
+- H1 (`⌘ ⌥ 1`)
+- H2 (`⌘ ⌥ 2`)
+- H3 (`⌘ ⌥ 3`)
 
 ### Lists and Structure
-- Bullet Lists (⌘⇧8)
-- Numbered Lists (⌘⇧7)
-- Blockquotes
+- Bullet Lists (`⌘ ⇧ 8`)
+- Numbered Lists (`⌘ ⇧ 7`)
+- Blockquotes (`⌘ ⇧ B`)
 - Horizontal Rules
 
 ### Code
-- Inline Code (⌘E)
-- Code Blocks (⌘⌥C)
+- Inline Code (`⌘ E`)
+- Code Blocks (`⌘ ⌥ C`)
 
 ### Additional Features
 - Image drag & drop support
