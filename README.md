@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<img alt="TextE Editor Interface" src="/public/og-image.png">
 
-## Getting Started
+A minimalist yet powerful text editor built for writers, bloggers, and content creators. TextE Editor combines simplicity with essential formatting features to help you focus on what matters most - your writing.
 
-First, run the development server:
+## ✨ Features
+
+- 🎨 Clean, distraction-free interface
+- 📝 Rich text formatting
+- 🔤 Multiple heading styles
+- 📋 Lists and blockquotes
+- 💻 Code block support
+- 🌙 Dark mode support
+- 📱 Responsive design
+- 🖼️ Image drag & drop
+- ↩️ Undo/Redo functionality
+
+## 🚀 Technologies Used
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [TipTap](https://tiptap.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Headless UI](https://headlessui.com/)
+
+## 📋 Prerequisites
+
+- Node.js (version 16.x or later)
+- npm or yarn
+- Modern web browser
+
+## 🛠️ Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/texte-editor.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd texte-editor
+   ```
+
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Set up environment variables:
+   Create a `.env.local` file in the root directory and add necessary variables (if any).
+
+## 🎮 Running the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to start using the editor.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🖊️ Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+TextE Editor provides several formatting options accessible through the toolbar:
 
-## Learn More
+### Text Formatting
+- Bold (⌘B)
+- Italic (⌘I)
+- Underline (⌘U)
 
-To learn more about Next.js, take a look at the following resources:
+### Headings
+- H1 (⌘⌥1)
+- H2 (⌘⌥2)
+- H3 (⌘⌥3)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Lists and Structure
+- Bullet Lists (⌘⇧8)
+- Numbered Lists (⌘⇧7)
+- Blockquotes
+- Horizontal Rules
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Code
+- Inline Code (⌘E)
+- Code Blocks (⌘⌥C)
 
-## Deploy on Vercel
+### Additional Features
+- Image drag & drop support
+- Undo/Redo functionality
+- Import/Export capabilities (coming soon)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🤝 Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🙏 Acknowledgments
+
+- [TipTap](https://tiptap.dev/) for the powerful text editing capabilities
+- [Heroicons](https://heroicons.com/) for the beautiful icons
+- The Next.js team for the amazing framework
+
+Made with ❤️ by Raul Carini
