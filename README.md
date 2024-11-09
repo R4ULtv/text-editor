@@ -1,6 +1,6 @@
-<img alt="TextE Editor Interface" src="/public/og-image.png">
+<img alt="Text Editor Interface" src="/public/og-image.png">
 
-A minimalist yet powerful text editor built for writers, bloggers, and content creators. TextE Editor combines simplicity with essential formatting features to help you focus on what matters most - your writing.
+A minimalist yet powerful text editor built for writers, bloggers, and content creators. Text Editor combines simplicity with essential formatting features to help you focus on what matters most - your writing.
 
 ## ✨ Features
 
@@ -32,12 +32,12 @@ A minimalist yet powerful text editor built for writers, bloggers, and content c
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/texte-editor.git
+   git clone https://github.com/yourusername/text-editor.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd texte-editor
+   cd text-editor
    ```
 
 3. Install dependencies:
@@ -58,7 +58,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to start usi
 
 ## 🖊️ Usage
 
-TextE Editor provides several formatting options accessible through the toolbar:
+Text Editor provides several formatting options accessible through the toolbar:
 
 ### Text Formatting
 - Bold (`⌘ B`)
