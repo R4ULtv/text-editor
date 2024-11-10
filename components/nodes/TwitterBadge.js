@@ -81,4 +81,22 @@ export default Node.create({
       }),
     ];
   },
+
+  addPasteRules() {
+    return [
+      {
+        find: /@([\w_]+)/g,
+        handler: ({ state, range, match }) => {
+          const username = match[1];
+          const { tr } = state;
+          tr.replaceRangeWith(
+            range.from,
+            range.to,
+            this.type.create({ username }),
+          );
+          return true;
+        },
+      },
+    ];
+  },
 });
