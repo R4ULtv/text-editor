@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import {
   EditorContent,
   FloatingMenu,
@@ -13,8 +13,20 @@ import Code from "@tiptap/extension-code";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import CodeBlock from "@tiptap/extension-code-block";
+import Youtube from "@tiptap/extension-youtube";
 
-import { Button } from "@headlessui/react";
+import IFrame from "@/components/nodes/iFrame";
+import TwitterBadge from "@/components/nodes/TwitterBadge";
+
+import {
+  Button,
+  Description,
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+  Input,
+} from "@headlessui/react";
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon,
@@ -30,14 +42,22 @@ import {
   H2Icon,
   H3Icon,
   ItalicIcon,
+  LinkIcon,
   ListBulletIcon,
   MinusIcon,
   NumberedListIcon,
+  PhotoIcon,
   UnderlineIcon,
 } from "@heroicons/react/16/solid";
 import { TwitterIcon, YoutubeIcon } from "@/utils/icons";
 
 export default function Editor({ html }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [url, setUrl] = useState("");
+  const [dialogType, setDialogType] = useState("youtube");
+  const [username, setUsername] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -55,6 +75,19 @@ export default function Editor({ html }) {
         },
       }),
       CodeBlock,
+      Youtube.configure({
+        HTMLAttributes: {
+          class: "rounded-md w-full aspect-video overflow-hidden my-8",
+        },
+        height: "auto",
+        nocookie: true,
+      }),
+      IFrame.configure({
+        HTMLAttributes: {
+          class: "w-full rounded-md overflow-hidden my-8",
+        },
+      }),
+      TwitterBadge,
     ],
     content: html,
     immediatelyRender: false,
@@ -107,6 +140,54 @@ export default function Editor({ html }) {
   if (!editor) {
     return null;
   }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (typeof e.target?.result === "string") {
+          setUrl(e.target.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const addContent = () => {
+    if (url) {
+      if (dialogType === "youtube") {
+        editor.commands.setYoutubeVideo({
+          src: url,
+        });
+      } else if (dialogType === "embed") {
+        editor
+          .chain()
+          .focus()
+          .setIframe({
+            src: url,
+          })
+          .run();
+      } else if (dialogType === "image") {
+        editor.chain().focus().setImage({ src: url }).run();
+      }
+      setUrl("");
+      setSelectedFile(null);
+      setIsOpen(false);
+    } else if (dialogType === "twitterMention" && username) {
+      editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: "twitterBadge",
+          attrs: { username },
+        })
+        .run();
+      setUsername("");
+      setIsOpen(false);
+    }
+  };
 
   const commands = [
     {
@@ -181,15 +262,21 @@ export default function Editor({ html }) {
       type: "format",
       icon: <MinusIcon className="size-3.5" />,
       onClick: () => editor.chain().focus().setHorizontalRule().run(),
+      divideAfter: true,
+    },
+    {
+      label: "Link",
+      action: "link",
+      type: "blocks",
+      icon: <LinkIcon className="size-3.5" />,
     },
     {
       label: "Block Quote",
-      action: "blockQuote",
-      type: "format",
+      action: "blockquote",
+      type: "blocks",
       icon: <ChatBubbleLeftEllipsisIcon className="size-3.5" />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
       shortcut: "⌘ ⇧ B",
-      divideAfter: true,
     },
     {
       label: "Code",
@@ -209,10 +296,24 @@ export default function Editor({ html }) {
       divideAfter: true,
     },
     {
+      label: "Image",
+      action: "image",
+      type: "utils",
+      icon: <PhotoIcon className="size-3.5" />,
+      onClick: () => {
+        setDialogType("image");
+        setIsOpen(true);
+      },
+    },
+    {
       label: "Youtube",
       action: "youtube",
       type: "utils",
       icon: <YoutubeIcon className="size-3.5" />,
+      onClick: () => {
+        setDialogType("youtube");
+        setIsOpen(true);
+      },
     },
     {
       label: "Twitter",
@@ -225,12 +326,20 @@ export default function Editor({ html }) {
       action: "twitterMention",
       type: "utils",
       icon: <AtSymbolIcon className="size-3.5" />,
+      onClick: () => {
+        setDialogType("twitterMention");
+        setIsOpen(true);
+      },
     },
     {
       label: "Embed",
       action: "embed",
       type: "utils",
       icon: <GlobeAltIcon className="size-3.5" />,
+      onClick: () => {
+        setDialogType("embed");
+        setIsOpen(true);
+      },
     },
   ];
 
@@ -272,7 +381,7 @@ export default function Editor({ html }) {
       </div>
       <div className="h-px w-full bg-zinc-200 dark:bg-zinc-800 rounded-full my-2" />
 
-      <div className="flex items-center gap-1.5 overflow-x-scroll w-full">
+      <div className="flex items-center gap-1.5 overflow-x-auto w-full">
         {commands.map((command, index) => (
           <Fragment key={index}>
             <Button
@@ -297,10 +406,13 @@ export default function Editor({ html }) {
         editor={editor}
         tippyOptions={{ duration: 75 }}
       >
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-xl flex items-center gap-1">
+        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-xl flex items-center gap-1 w-fit">
           {commands
             .filter(
-              (command) => command.type === "text" || command.type === "style",
+              (command) =>
+                command.type === "text" ||
+                command.type === "style" ||
+                command.type === "blocks",
             )
             .map((command, index) => (
               <Fragment key={index}>
@@ -308,7 +420,11 @@ export default function Editor({ html }) {
                   disabled={!command.onClick}
                   onClick={command.onClick}
                   aria-label={command.label}
-                  className={`rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${editor.isActive(command.action) ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-500"}`}
+                  className={`rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${
+                    editor.isActive(command.action)
+                      ? "text-zinc-800 dark:text-zinc-200"
+                      : "text-zinc-500"
+                  }`}
                 >
                   {command.icon}
                   <span className="sr-only">{command.label}</span>
@@ -316,12 +432,16 @@ export default function Editor({ html }) {
                 {command.divideAfter &&
                   commands.filter(
                     (command) =>
-                      command.type === "text" || command.type === "style",
+                      command.type === "text" ||
+                      command.type === "style" ||
+                      command.type === "blocks",
                   )[
                     commands
                       .filter(
                         (command) =>
-                          command.type === "text" || command.type === "style",
+                          command.type === "text" ||
+                          command.type === "style" ||
+                          command.type === "blocks",
                       )
                       .indexOf(command) + 1
                   ] && (
@@ -343,7 +463,11 @@ export default function Editor({ html }) {
                   disabled={!command.onClick}
                   onClick={command.onClick}
                   aria-label={command.label}
-                  className={`rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${editor.isActive(command.action) ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-500"}`}
+                  className={`rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${
+                    editor.isActive(command.action)
+                      ? "text-zinc-800 dark:text-zinc-200"
+                      : "text-zinc-500"
+                  }`}
                 >
                   {command.icon}
                   <span className="sr-only">{command.label}</span>
@@ -367,6 +491,86 @@ export default function Editor({ html }) {
         </div>
       </FloatingMenu>
       <EditorContent editor={editor} />
+
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="relative z-50"
+      >
+        <DialogBackdrop className="fixed inset-0 bg-black/30" />
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+          <DialogPanel className="max-w-lg w-full space-y-3 bg-zinc-900 rounded-xl p-6">
+            <DialogTitle className="font-bold text-zinc-800 dark:text-zinc-200">
+              {dialogType === "youtube"
+                ? "Add Youtube Video"
+                : dialogType === "twitterMention"
+                  ? "Add Twitter User"
+                  : dialogType === "image"
+                    ? "Add Image"
+                    : "Add Embedded Page"}
+            </DialogTitle>
+            <Description className="text-sm text-zinc-600 dark:text-zinc-400">
+              {dialogType === "youtube"
+                ? "Add an embedded Youtube Video into your document by pasting a YouTube URL."
+                : dialogType === "twitterMention"
+                  ? "Enter a Twitter username to mention them in your document."
+                  : dialogType === "image"
+                    ? "Upload an image or paste an image URL."
+                    : "Add an embedded page into your document by pasting a URL."}
+            </Description>
+            {dialogType === "image" && (
+              <div className="space-y-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="w-full rounded-lg text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-500 border border-zinc-200 dark:border-zinc-800 text-sm outline-none px-2 py-1.5"
+                />
+                <div className="text-center text-sm text-zinc-500">or</div>
+              </div>
+            )}
+            <Input
+              value={dialogType === "twitterMention" ? username : url}
+              onChange={(e) =>
+                dialogType === "twitterMention"
+                  ? setUsername(e.target.value)
+                  : setUrl(e.target.value)
+              }
+              placeholder={
+                dialogType === "youtube"
+                  ? "https://youtube.com/watch"
+                  : dialogType === "twitterMention"
+                    ? "username"
+                    : dialogType === "image"
+                      ? "https://example.com/image.jpg"
+                      : "https://example.com"
+              }
+              className="w-full rounded-lg text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-500 border border-zinc-200 dark:border-zinc-800 text-sm outline-none px-2 py-1.5"
+            />
+            <div className="flex justify-end gap-2">
+              <Button
+                onClick={() => setIsOpen(false)}
+                className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={addContent}
+                className="rounded-lg px-3 py-1.5 text-sm font-medium bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
+              >
+                Add{" "}
+                {dialogType === "youtube"
+                  ? "Video"
+                  : dialogType === "twitterMention"
+                    ? "User"
+                    : dialogType === "image"
+                      ? "Image"
+                      : "Page"}
+              </Button>
+            </div>
+          </DialogPanel>
+        </div>
+      </Dialog>
     </>
   );
 }
