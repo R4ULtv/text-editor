@@ -2,9 +2,7 @@ import { mergeAttributes, Node } from "@tiptap/core";
 
 export const IFrame = Node.create({
   name: "iframe",
-
   group: "block",
-
   atom: true,
 
   addAttributes() {
