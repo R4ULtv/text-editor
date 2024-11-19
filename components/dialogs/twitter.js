@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useDialog } from "@/components/dialogs/provider";
 import { AtSymbolIcon } from "@heroicons/react/16/solid";
+import { TwitterIcon } from "@/utils/icons";
 
 export function MentionDialog({ editor }) {
   const { isOpenMention, setIsOpenMention } = useDialog();
@@ -98,7 +99,7 @@ export function TweetDialog({ editor }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1.5">
-            <AtSymbolIcon className="size-4" />
+            <TwitterIcon className="size-4" />
             Tweet Embed
           </DialogTitle>
           <DialogDescription>
@@ -111,13 +112,14 @@ export function TweetDialog({ editor }) {
               htmlFor="tweet"
               className="text-left text-sm text-zinc-600 dark:text-zinc-400"
             >
-              Tweet ID
+              Tweet ID or Tweet Link
             </label>
             <input
               id="tweet"
               value={tweet}
               onChange={(e) => setTweet(e.target.value)}
               placeholder="1858596645744603482"
+              autoComplete="off"
               className="px-3 py-1.5 bg-transparent border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 hover:dark:border-zinc-700 rounded-lg outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500"
             />
           </div>
