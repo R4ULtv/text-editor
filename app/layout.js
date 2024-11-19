@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import "./globals.css";
 import ThemeChanger from "@/components/ThemeChanger";
-import { GithubIcon } from "@/utils/icons";
+import { Toaster } from "sonner";
 
 export const metadata = {
   title: "Text Editor | by Raul Carini",
@@ -55,6 +55,17 @@ export default function RootLayout({ children }) {
             </header>
             {children}
           </main>
+          <Toaster
+            toastOptions={{
+              classNames: {
+                toast:
+                  "bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 gap-2",
+                title: "text-zinc-900 dark:text-zinc-100",
+                description: "text-zinc-700 dark:text-zinc-300",
+                icon: "text-zinc-800 dark:text-zinc-200",
+              },
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>
