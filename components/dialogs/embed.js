@@ -61,6 +61,7 @@ export function EmbedDialog({ editor }) {
               value={embedUrl}
               onChange={handleEmbedUrlChange}
               placeholder="https://www.example.com/"
+              autoComplete="off"
               className="px-3 py-1.5 bg-transparent border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 hover:dark:border-zinc-700 rounded-lg outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500"
             />
           </div>
@@ -76,6 +77,7 @@ export function EmbedDialog({ editor }) {
                 id="embed-width"
                 value={width}
                 onChange={(e) => setWidth(e.target.value)}
+                autoComplete="off"
                 className="w-full px-3 py-1.5 bg-transparent border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 hover:dark:border-zinc-700 rounded-lg outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500"
               />
             </div>
@@ -90,6 +92,7 @@ export function EmbedDialog({ editor }) {
                 id="embed-height"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
+                autoComplete="off"
                 className="w-full px-3 py-1.5 bg-transparent border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 hover:dark:border-zinc-700 rounded-lg outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500"
               />
             </div>

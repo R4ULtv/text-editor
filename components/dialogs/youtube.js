@@ -61,6 +61,7 @@ export function YoutubeDialog({ editor }) {
               value={youtubeUrl}
               onChange={handleYoutubeUrlChange}
               placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              autoComplete="off"
               className="px-3 py-1.5 bg-transparent border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 hover:dark:border-zinc-700 rounded-lg outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500"
             />
           </div>

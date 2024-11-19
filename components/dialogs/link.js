@@ -78,6 +78,7 @@ export function LinkDialog({ editor }) {
               value={link}
               onChange={(e) => setLink(e.target.value)}
               placeholder="https://www.example.com/"
+              autoComplete="off"
               className="px-3 py-1.5 bg-transparent border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 hover:dark:border-zinc-700 rounded-lg outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500"
             />
             <label
@@ -91,6 +92,7 @@ export function LinkDialog({ editor }) {
               value={linkText}
               onChange={(e) => setLinkText(e.target.value)}
               placeholder="Link display text"
+              autoComplete="off"
               className="px-3 py-1.5 bg-transparent border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 hover:dark:border-zinc-700 rounded-lg outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500"
             />
           </div>
