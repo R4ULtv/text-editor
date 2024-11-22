@@ -2,7 +2,7 @@ import { InputRule, markInputRule } from "@tiptap/core";
 import { Link as TiptapLink } from "@tiptap/extension-link";
 
 const inputRegex =
-  /(?:^|\s)\[([^\]]*)?\]\(([A-Za-z0-9:/. ]+)(?:["“](.+)["”])?\)$/;
+  /(?:^|\s)\[([^\]]*)?\]\(([A-Za-z0-9:/. ]+)(?:[""](.+)[""])?\)$/;
 
 function linkInputRule(config) {
   const defaultMarkInputRule = markInputRule(config);
