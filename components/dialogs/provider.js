@@ -1,4 +1,5 @@
 "use client";
+
 import { createContext, useContext, useState } from "react";
 
 const DialogContext = createContext();
@@ -10,6 +11,8 @@ export function DialogProvider({ children }) {
   const [isOpenImage, setIsOpenImage] = useState(false);
   const [isOpenLink, setIsOpenLink] = useState(false);
   const [isOpenTweet, setIsOpenTweet] = useState(false);
+  const [isOpenExport, setIsOpenExport] = useState(false);
+  const [isOpenImport, setIsOpenImport] = useState(false);
 
   const value = {
     isOpenYoutube,
@@ -24,6 +27,10 @@ export function DialogProvider({ children }) {
     setIsOpenLink,
     isOpenTweet,
     setIsOpenTweet,
+    isOpenExport,
+    setIsOpenExport,
+    isOpenImport,
+    setIsOpenImport,
   };
 
   return (
