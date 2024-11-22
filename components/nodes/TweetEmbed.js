@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, nodeInputRule } from "@tiptap/core";
+import { mergeAttributes, Node } from "@tiptap/core";
 import { Tweet } from "react-tweet";
 import { ReactNodeViewRenderer, NodeViewWrapper } from "@tiptap/react";
 
