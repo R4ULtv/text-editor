@@ -1,7 +1,10 @@
-import { Root, Separator, Button } from "@radix-ui/react-toolbar";
 import { Fragment, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+
+import * as Dialog from "@radix-ui/react-dialog";
+import { Root, Separator, Button } from "@radix-ui/react-toolbar";
+
 import AiMenu from "@/components/AiMenu";
+import { cn } from "@/utils/cn";
 
 const ToolbarEditor = ({ editor, commands }) => {
   const [isToolbarVisible, setIsToolbarVisible] = useState(false);
@@ -22,20 +25,24 @@ const ToolbarEditor = ({ editor, commands }) => {
   }, []);
 
   return (
-    <AnimatePresence>
-      {!editor.state.selection.empty && isToolbarVisible && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.75, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.75, y: -20 }}
-          className="fixed z-50 top-5 inset-x-0 flex items-center justify-center"
+    <Dialog.Root
+      open={isToolbarVisible && !editor.state.selection.empty}
+      onOpenChange={setIsToolbarVisible}
+    >
+      <Dialog.Portal>
+        <div
+          data-state={isToolbarVisible ? "open" : "closed"}
+          className={cn(
+            "fixed z-50 top-5 inset-x-0 flex items-center justify-center",
+            "ease-out-bounce data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-75 data-[state=open]:zoom-in-75",
+          )}
         >
           <Root
-            className="shadow bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-xl flex items-center gap-1 w-fit"
             aria-label="Editor Options"
+            className="shadow bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-xl flex items-center gap-1 w-fit overflow-x-auto no-scrollbar"
           >
             <AiMenu editor={editor} />
-            <Separator className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full" />
+            <Separator className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
             {commands
               .filter(
                 (command) =>
@@ -74,14 +81,14 @@ const ToolbarEditor = ({ editor, commands }) => {
                         )
                         .indexOf(command) + 1
                     ] && (
-                      <Separator className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full" />
+                      <Separator className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
                     )}
                 </Fragment>
               ))}
           </Root>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </div>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 };
 

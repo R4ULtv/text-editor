@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { CheckIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/utils/cn";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
@@ -36,55 +35,35 @@ DropdownMenuSubTrigger.displayName =
   DropdownMenuPrimitive.SubTrigger.displayName;
 
 const DropdownMenuSubContent = React.forwardRef(
-  ({ className, children, ...props }, ref) => (
-    <AnimatePresence>
-      <DropdownMenuPrimitive.SubContent
-        asChild
-        ref={ref}
-        className={cn(
-          "z-50 min-w-[8rem] overflow-hidden bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border-zinc-200 dark:border-zinc-800 rounded-xl border p-1 shadow-lg",
-          className,
-        )}
-        {...props}
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.75, x: -50 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          exit={{ opacity: 0, scale: 0.75, x: -50 }}
-        >
-          {children}
-        </motion.div>
-      </DropdownMenuPrimitive.SubContent>
-    </AnimatePresence>
+  ({ className, ...props }, ref) => (
+    <DropdownMenuPrimitive.SubContent
+      ref={ref}
+      className={cn(
+        "z-50 min-w-[8rem] overflow-hidden bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border-zinc-200 dark:border-zinc-800 rounded-xl border p-1 shadow-lg",
+        "ease-out-bounce data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-75 data-[state=open]:zoom-in-75 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 DropdownMenuSubContent.displayName =
   DropdownMenuPrimitive.SubContent.displayName;
 
 const DropdownMenuContent = React.forwardRef(
-  ({ className, sideOffset = 4, children, ...props }, ref) => (
-    <AnimatePresence>
-      <DropdownMenuPrimitive.Portal>
-        <DropdownMenuPrimitive.Content
-          asChild
-          ref={ref}
-          sideOffset={sideOffset}
-          className={cn(
-            "z-50 min-w-[8rem] overflow-hidden bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1 shadow-md",
-            className,
-          )}
-          {...props}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.75, y: -100 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.75 }}
-          >
-            {children}
-          </motion.div>
-        </DropdownMenuPrimitive.Content>
-      </DropdownMenuPrimitive.Portal>
-    </AnimatePresence>
+  ({ className, sideOffset = 4, ...props }, ref) => (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        className={cn(
+          "z-50 min-w-[8rem] overflow-hidden bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1 shadow-md",
+          "ease-out-bounce data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-75 data-[state=open]:zoom-in-75 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+          className,
+        )}
+        {...props}
+      />
+    </DropdownMenuPrimitive.Portal>
   ),
 );
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
