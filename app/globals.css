@@ -1,3 +1,118 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+code.hljs {
+    padding: 3px 5px;
+}
+.hljs-emphasis {
+    font-style: italic;
+}
+.hljs-strong {
+    font-weight: 700;
+}
+.hljs-link {
+    text-decoration: underline;
+}
+
+.light .hljs-comment,
+.light .hljs-quote {
+    color: #a0a1a7;
+    font-style: italic;
+}
+.light .hljs-doctag,
+.light .hljs-formula,
+.light .hljs-keyword {
+    color: #a626a4;
+}
+.light .hljs-deletion,
+.light .hljs-name,
+.light .hljs-section,
+.light .hljs-selector-tag,
+.light .hljs-subst {
+    color: #e45649;
+}
+.light .hljs-literal {
+    color: #0184bb;
+}
+.light .hljs-addition,
+.light .hljs-attribute,
+.light .hljs-meta .hljs-string,
+.light .hljs-regexp,
+.light .hljs-string {
+    color: #50a14f;
+}
+.light .hljs-attr,
+.light .hljs-number,
+.light .hljs-selector-attr,
+.light .hljs-selector-class,
+.light .hljs-selector-pseudo,
+.light .hljs-template-variable,
+.light .hljs-type,
+.light .hljs-variable {
+    color: #986801;
+}
+.light .hljs-bullet,
+.light .hljs-link,
+.light .hljs-meta,
+.light .hljs-selector-id,
+.light .hljs-symbol,
+.light .hljs-title {
+    color: #4078f2;
+}
+.light .hljs-built_in,
+.light .hljs-class .hljs-title,
+.light .hljs-title.class_ {
+    color: #c18401;
+}
+
+.dark .hljs-comment,
+.dark .hljs-quote {
+    color: #5c6370;
+    font-style: italic;
+}
+.dark .hljs-doctag,
+.dark .hljs-formula,
+.dark .hljs-keyword {
+    color: #c678dd;
+}
+.dark .hljs-deletion,
+.dark .hljs-name,
+.dark .hljs-section,
+.dark .hljs-selector-tag,
+.dark .hljs-subst {
+    color: #e06c75;
+}
+.dark .hljs-literal {
+    color: #56b6c2;
+}
+.dark .hljs-addition,
+.dark .hljs-attribute,
+.dark .hljs-meta .hljs-string,
+.dark .hljs-regexp,
+.dark .hljs-string {
+    color: #98c379;
+}
+.dark .hljs-attr,
+.dark .hljs-number,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-class,
+.dark .hljs-selector-pseudo,
+.dark .hljs-template-variable,
+.dark .hljs-type,
+.dark .hljs-variable {
+    color: #d19a66;
+}
+.dark .hljs-bullet,
+.dark .hljs-link,
+.dark .hljs-meta,
+.dark .hljs-selector-id,
+.dark .hljs-symbol,
+.dark .hljs-title {
+    color: #61aeee;
+}
+.dark .hljs-built_in,
+.dark .hljs-class .hljs-title,
+.dark .hljs-title.class_ {
+    color: #e6c07b;
+}
