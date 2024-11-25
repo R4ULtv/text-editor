@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-code.hljs {
-    padding: 3px 5px;
-}
 .hljs-emphasis {
     font-style: italic;
 }
