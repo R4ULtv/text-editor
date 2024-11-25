@@ -7,6 +7,7 @@ import ThemeChanger from "@/components/ThemeChanger";
 import { Toaster } from "sonner";
 
 export const metadata = {
+  metadataBase: "https://editor.raulcarini.dev",
   title: "Text Editor | by Raul Carini",
   description:
     "Create blog posts or articles with ease in a simple text editor and export to markdown, HTML, or doc formats",
