@@ -1,6 +1,7 @@
 <img alt="Text Editor Interface" src="/public/og-image.png">
 
-A minimalist yet powerful text editor built for writers, bloggers, and content creators. Text Editor combines simplicity with essential formatting features to help you focus on what matters most - your writing.
+A sophisticated rich text editor built with modern web technologies, featuring an extensive toolbar, AI assistance, and multimedia embedding capabilities.
+Perfect for writers, developers, and content creators who need a powerful yet intuitive editing experience.
 
 ## ✨ Features
 
@@ -13,6 +14,13 @@ A minimalist yet powerful text editor built for writers, bloggers, and content c
 - 📱 Responsive design
 - 🖼️ Image drag & drop
 - ↩️ Undo/Redo functionality
+- 🤖 AI Writing Assistance
+  - Translation to multiple languages
+  - Text summarization
+  - Writing improvements and suggestions
+  - Tone adjustment
+  - Grammar and error correction
+  - Content length optimization
 
 ## 🚀 Technologies Used
 
@@ -21,10 +29,11 @@ A minimalist yet powerful text editor built for writers, bloggers, and content c
 - [TipTap](https://tiptap.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Headless UI](https://headlessui.com/)
+- [Radix-UI](https://radix-ui.com/)
 
 ## 📋 Prerequisites
 
-- Node.js (version 16.x or later)
+- Node.js (version 18.x or later)
 - npm or yarn
 - Modern web browser
 
@@ -60,30 +69,33 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to start usi
 
 Text Editor provides several formatting options accessible through the toolbar:
 
-### Text Formatting
-- Bold (`⌘ B`)
-- Italic (`⌘ I`)
-- Underline (`⌘ U`)
+## ⌨️ Keyboard Shortcuts
 
-### Headings
-- H1 (`⌘ ⌥ 1`)
-- H2 (`⌘ ⌥ 2`)
-- H3 (`⌘ ⌥ 3`)
+| Function | Shortcut |
+|----------|----------|
+| Bold | ⌘ B |
+| Italic | ⌘ I |
+| Underline | ⌘ U |
+| Heading 1 | ⌘ ⌥ 1 |
+| Heading 2 | ⌘ ⌥ 2 |
+| Heading 3 | ⌘ ⌥ 3 |
+| Bullet List | ⌘ ⇧ 8 |
+| Ordered List | ⌘ ⇧ 7 |
+| Block Quote | ⌘ ⇧ B |
+| Inline Code | ⌘ E |
+| Code Block | ⌘ ⌥ C |
+| Improve Writing | ⌥ I |
+| Summarize Writing | ⌥ S |
+| Longer Writing | ⌥ L |
+| Shorter Writing | ⌥ H |
+| Fix Grammar | ⌥ G |
 
-### Lists and Structure
-- Bullet Lists (`⌘ ⇧ 8`)
-- Numbered Lists (`⌘ ⇧ 7`)
-- Blockquotes (`⌘ ⇧ B`)
-- Horizontal Rules
-
-### Code
-- Inline Code (`⌘ E`)
-- Code Blocks (`⌘ ⌥ C`)
 
 ### Additional Features
 - Image drag & drop support
 - Undo/Redo functionality
-- Import/Export capabilities (coming soon)
+- Import/Export capabilities
+- AI-powered writing assistance
 
 ## 🤝 Contributing
 
@@ -103,6 +115,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 - [TipTap](https://tiptap.dev/) for the powerful text editing capabilities
 - [Heroicons](https://heroicons.com/) for the beautiful icons
+- [Radix](https://www.radix-ui.com/) for accessible UI components
+- [Google AI for Chrome](https://developer.chrome.com/docs/ai/built-in) for enhanced AI capabilities
 - The Next.js team for the amazing framework
 
 Made with ❤️ by Raul Carini
