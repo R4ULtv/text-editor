@@ -1,33 +1,25 @@
 "use client";
 
-import { Fragment, useState } from "react";
-import {
-  EditorContent,
-  FloatingMenu,
-  BubbleMenu,
-  useEditor,
-} from "@tiptap/react";
+import { Fragment } from "react";
+import { common, createLowlight } from "lowlight";
+
+import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Code from "@tiptap/extension-code";
 import Image from "@tiptap/extension-image";
-import Link from "@tiptap/extension-link";
-import CodeBlock from "@tiptap/extension-code-block";
 import Youtube from "@tiptap/extension-youtube";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 
 import IFrame from "@/components/nodes/iFrame";
 import TwitterBadge from "@/components/nodes/TwitterBadge";
+import { Link } from "@/components/nodes/Link";
+import AiGeneration from "@/components/nodes/AiGeneration";
+import { TweetEmbed } from "@/components/nodes/TweetEmbed";
 
 import {
-  Button,
-  Description,
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-  Input,
-} from "@headlessui/react";
-import {
+  ArrowDownTrayIcon,
+  ArrowUpTrayIcon,
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon,
   AtSymbolIcon,
@@ -35,8 +27,6 @@ import {
   ChatBubbleLeftEllipsisIcon,
   CodeBracketIcon,
   CommandLineIcon,
-  DocumentArrowDownIcon,
-  DocumentArrowUpIcon,
   GlobeAltIcon,
   H1Icon,
   H2Icon,
@@ -51,12 +41,34 @@ import {
 } from "@heroicons/react/16/solid";
 import { TwitterIcon, YoutubeIcon } from "@/utils/icons";
 
+import AiMenu from "@/components/AiMenu";
+import ToolbarEditor from "@/components/ui/toolbar";
+import { useDialog } from "@/components/dialogs/provider";
+import { YoutubeDialog } from "@/components/dialogs/youtube";
+import { EmbedDialog } from "@/components/dialogs/embed";
+import { MentionDialog, TweetDialog } from "@/components/dialogs/twitter";
+import { ImageDialog } from "@/components/dialogs/image";
+import { LinkDialog } from "@/components/dialogs/link";
+import { ExportDialog } from "@/components/dialogs/export";
+import { ImportDialog } from "@/components/dialogs/import";
+
+import useKeyboardSound from "@/components/audio/useKeyboardSound";
+import AudioButton from "@/components/audio/AudioButton";
+
+const lowlight = createLowlight(common);
+
 export default function Editor({ html }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [url, setUrl] = useState("");
-  const [dialogType, setDialogType] = useState("youtube");
-  const [username, setUsername] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const playKeyboardSound = useKeyboardSound();
+  const {
+    setIsOpenYoutube,
+    setIsOpenEmbed,
+    setIsOpenMention,
+    setIsOpenImage,
+    setIsOpenLink,
+    setIsOpenTweet,
+    setIsOpenExport,
+    setIsOpenImport,
+  } = useDialog();
 
   const editor = useEditor({
     extensions: [
@@ -74,7 +86,13 @@ export default function Editor({ html }) {
             "bg-zinc-200 dark:bg-zinc-800 px-1 py-0.5 rounded text-zinc-700 dark:text-zinc-300",
         },
       }),
-      CodeBlock,
+      CodeBlockLowlight.configure({
+        HTMLAttributes: {
+          class:
+            "border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 rounded-md",
+        },
+        lowlight,
+      }),
       Youtube.configure({
         HTMLAttributes: {
           class: "rounded-md w-full aspect-video overflow-hidden my-8",
@@ -88,6 +106,8 @@ export default function Editor({ html }) {
         },
       }),
       TwitterBadge,
+      AiGeneration,
+      TweetEmbed,
     ],
     content: html,
     immediatelyRender: false,
@@ -95,7 +115,17 @@ export default function Editor({ html }) {
       attributes: {
         spellcheck: "false",
         class:
-          "outline-none min-h-96 prose max-w-none prose-hr:my-6 prose-strong:text-zinc-700 dark:prose-strong:text-zinc-300 prose-img:rounded-md prose-a:underline-offset-2 prose-a:underline prose-a:font-medium prose-a:text-zinc-700 dark:prose-a:text-zinc-300 dark:prose-invert prose-zinc mx-auto prose-headings:font-semibold dark:prose-headings:text-zinc-200 prose-headings:text-zinc-800 prose-p:text-zinc-600 dark:prose-p:text-zinc-400 prose-li:text-zinc-600 dark:prose-li:text-zinc-400 prose-h1:text-3xl prose-h1:font-bold prose-h2:text-xl prose-h3:text-lg prose-img:shadow-lg prose-pre:bg-transparent prose-pre:my-1 prose-figure:bg-zinc-800 dark:prose-figure:bg-black/50 prose-figcaption:px-3 prose-figcaption:py-2 prose-figcaption:border-b prose-figcaption:border-zinc-600 dark:prose-figcaption:border-zinc-800 prose-figcaption:text-zinc-400 prose-figure:rounded-md duration-150",
+          "outline-none min-h-96 prose max-w-none prose-hr:my-6 prose-strong:text-zinc-700 dark:prose-strong:text-zinc-300 prose-img:rounded-md  prose-img:mx-auto prose-a:underline-offset-2 prose-a:underline prose-a:font-medium prose-a:text-zinc-700 dark:prose-a:text-zinc-300 dark:prose-invert prose-zinc mx-auto prose-headings:font-semibold dark:prose-headings:text-zinc-200 prose-headings:text-zinc-800 prose-p:text-zinc-600 dark:prose-p:text-zinc-400 prose-li:text-zinc-600 dark:prose-li:text-zinc-400 prose-h1:text-3xl prose-h1:font-bold prose-h2:text-xl prose-h3:text-lg prose-img:shadow-lg prose-pre:bg-transparent prose-pre:my-1 prose-figure:bg-zinc-800 dark:prose-figure:bg-black/50 prose-figcaption:px-3 prose-figcaption:py-2 prose-figcaption:border-b prose-figcaption:border-zinc-600 dark:prose-figcaption:border-zinc-800 prose-figcaption:text-zinc-400 prose-figure:rounded-md duration-150",
+      },
+      handleKeyDown: (view, e) => {
+        if (
+          e.repeat &&
+          (e.key === "Ctrl" || e.key === "Shift" || e.key === "Alt")
+        ) {
+          return;
+        }
+
+        playKeyboardSound(e.key);
       },
       handleDrop: (view, event, slice, moved) => {
         if (
@@ -140,54 +170,6 @@ export default function Editor({ html }) {
   if (!editor) {
     return null;
   }
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (typeof e.target?.result === "string") {
-          setUrl(e.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const addContent = () => {
-    if (url) {
-      if (dialogType === "youtube") {
-        editor.commands.setYoutubeVideo({
-          src: url,
-        });
-      } else if (dialogType === "embed") {
-        editor
-          .chain()
-          .focus()
-          .setIframe({
-            src: url,
-          })
-          .run();
-      } else if (dialogType === "image") {
-        editor.chain().focus().setImage({ src: url }).run();
-      }
-      setUrl("");
-      setSelectedFile(null);
-      setIsOpen(false);
-    } else if (dialogType === "twitterMention" && username) {
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: "twitterBadge",
-          attrs: { username },
-        })
-        .run();
-      setUsername("");
-      setIsOpen(false);
-    }
-  };
 
   const commands = [
     {
@@ -269,6 +251,7 @@ export default function Editor({ html }) {
       action: "link",
       type: "blocks",
       icon: <LinkIcon className="size-3.5" />,
+      onClick: () => setIsOpenLink(true),
     },
     {
       label: "Block Quote",
@@ -285,61 +268,50 @@ export default function Editor({ html }) {
       icon: <CommandLineIcon className="size-3.5" />,
       onClick: () => editor.chain().focus().toggleCode().run(),
       shortcut: "⌘ E",
+      divideAfter: true,
     },
     {
       label: "Code Block",
       action: "codeBlock",
-      type: "blocks",
+      type: "utils",
       icon: <CodeBracketIcon className="size-3.5" />,
       onClick: () => editor.chain().focus().toggleCodeBlock().run(),
       shortcut: "⌘ ⌥ C",
-      divideAfter: true,
     },
     {
       label: "Image",
       action: "image",
       type: "utils",
       icon: <PhotoIcon className="size-3.5" />,
-      onClick: () => {
-        setDialogType("image");
-        setIsOpen(true);
-      },
+      onClick: () => setIsOpenImage(true),
     },
     {
       label: "Youtube",
       action: "youtube",
       type: "utils",
       icon: <YoutubeIcon className="size-3.5" />,
-      onClick: () => {
-        setDialogType("youtube");
-        setIsOpen(true);
-      },
+      onClick: () => setIsOpenYoutube(true),
     },
     {
       label: "Twitter",
       action: "twitter",
       type: "utils",
       icon: <TwitterIcon className="size-3.5" />,
+      onClick: () => setIsOpenTweet(true),
     },
     {
       label: "Twitter Mention",
       action: "twitterMention",
       type: "utils",
       icon: <AtSymbolIcon className="size-3.5" />,
-      onClick: () => {
-        setDialogType("twitterMention");
-        setIsOpen(true);
-      },
+      onClick: () => setIsOpenMention(true),
     },
     {
       label: "Embed",
       action: "embed",
       type: "utils",
       icon: <GlobeAltIcon className="size-3.5" />,
-      onClick: () => {
-        setDialogType("embed");
-        setIsOpen(true);
-      },
+      onClick: () => setIsOpenEmbed(true),
     },
   ];
 
@@ -347,230 +319,83 @@ export default function Editor({ html }) {
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <Button
+          <button
             onClick={() => editor.chain().focus().undo().run()}
-            className="rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 text-zinc-500"
+            className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-200 hover:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ArrowUturnLeftIcon className="size-3.5" />
             <span className="sr-only">Undo</span>
-          </Button>
-          <Button
+          </button>
+          <button
             onClick={() => editor.chain().focus().redo().run()}
-            className="rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 text-zinc-500"
+            className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-200 hover:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ArrowUturnRightIcon className="size-3.5" />
             <span className="sr-only">Redo</span>
-          </Button>
+          </button>
+          <AiMenu editor={editor} />
         </div>
         <div className="flex items-center gap-1.5">
-          <Button
-            disabled={true}
-            className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 dark:data-[hover]:text-zinc-200 data-[hover]:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
+          <button
+            onClick={() => setIsOpenImport(true)}
+            className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-200 hover:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <DocumentArrowDownIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
+            <ArrowUpTrayIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
             Import
-          </Button>
-          <Button
-            disabled={true}
-            className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 dark:data-[hover]:text-zinc-200 data-[hover]:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
+          </button>
+          <button
+            onClick={() => setIsOpenExport(true)}
+            className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-200 hover:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <DocumentArrowUpIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
+            <ArrowDownTrayIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
             Export
-          </Button>
+          </button>
         </div>
       </div>
       <div className="h-px w-full bg-zinc-200 dark:bg-zinc-800 rounded-full my-2" />
 
-      <div className="flex items-center gap-1.5 overflow-x-auto w-full">
+      <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full mx-auto">
         {commands.map((command, index) => (
           <Fragment key={index}>
-            <Button
+            <button
               onClick={command.onClick}
               disabled={!command.onClick}
               aria-label={command.label}
-              className="rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 data-hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${
+                editor.isActive(command.action)
+                  ? "text-zinc-800 dark:text-zinc-200"
+                  : "text-zinc-500"
+              }`}
             >
-              <div className="flex items-center gap-1.5">{command.icon}</div>
-            </Button>
+              <div className="flex items-center justify-center gap-1.5">
+                {command.icon}
+              </div>
+            </button>
             {command.divideAfter && (
-              <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full" />
+              <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
             )}
           </Fragment>
         ))}
+        <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
+        <AudioButton />
       </div>
 
-      <div className="h-px w-full bg-zinc-200 dark:bg-zinc-800 rounded-full mt-2 mb-4" />
-
-      <BubbleMenu
-        pluginKey={"textMenu"}
-        editor={editor}
-        tippyOptions={{ duration: 75 }}
-      >
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-xl flex items-center gap-1 w-fit">
-          {commands
-            .filter(
-              (command) =>
-                command.type === "text" ||
-                command.type === "style" ||
-                command.type === "blocks",
-            )
-            .map((command, index) => (
-              <Fragment key={index}>
-                <Button
-                  disabled={!command.onClick}
-                  onClick={command.onClick}
-                  aria-label={command.label}
-                  className={`rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${
-                    editor.isActive(command.action)
-                      ? "text-zinc-800 dark:text-zinc-200"
-                      : "text-zinc-500"
-                  }`}
-                >
-                  {command.icon}
-                  <span className="sr-only">{command.label}</span>
-                </Button>
-                {command.divideAfter &&
-                  commands.filter(
-                    (command) =>
-                      command.type === "text" ||
-                      command.type === "style" ||
-                      command.type === "blocks",
-                  )[
-                    commands
-                      .filter(
-                        (command) =>
-                          command.type === "text" ||
-                          command.type === "style" ||
-                          command.type === "blocks",
-                      )
-                      .indexOf(command) + 1
-                  ] && (
-                    <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full" />
-                  )}
-              </Fragment>
-            ))}
-        </div>
-      </BubbleMenu>
-      <FloatingMenu editor={editor} tippyOptions={{ duration: 75 }}>
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-xl flex items-center gap-1">
-          {commands
-            .filter(
-              (command) => command.type === "text" || command.type === "format",
-            )
-            .map((command, index) => (
-              <Fragment key={index}>
-                <Button
-                  disabled={!command.onClick}
-                  onClick={command.onClick}
-                  aria-label={command.label}
-                  className={`rounded-lg border border-zinc-200 dark:border-zinc-800 data-[hover]:border-zinc-300 dark:data-[hover]:border-zinc-700 data-[hover]:text-zinc-800 dark:data-[hover]:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${
-                    editor.isActive(command.action)
-                      ? "text-zinc-800 dark:text-zinc-200"
-                      : "text-zinc-500"
-                  }`}
-                >
-                  {command.icon}
-                  <span className="sr-only">{command.label}</span>
-                </Button>
-                {command.divideAfter &&
-                  commands.filter(
-                    (command) =>
-                      command.type === "text" || command.type === "format",
-                  )[
-                    commands
-                      .filter(
-                        (command) =>
-                          command.type === "text" || command.type === "format",
-                      )
-                      .indexOf(command) + 1
-                  ] && (
-                    <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full" />
-                  )}
-              </Fragment>
-            ))}
-        </div>
-      </FloatingMenu>
+      <div
+        className="h-px w-full bg-zinc-200 dark:bg-zinc-800 rounded-full mt-2 mb-4"
+        id="editor"
+      />
       <EditorContent editor={editor} />
+      <ToolbarEditor editor={editor} commands={commands} />
 
-      <Dialog
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="relative z-50"
-      >
-        <DialogBackdrop className="fixed inset-0 bg-black/30" />
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <DialogPanel className="max-w-lg w-full space-y-3 bg-zinc-900 rounded-xl p-6">
-            <DialogTitle className="font-bold text-zinc-800 dark:text-zinc-200">
-              {dialogType === "youtube"
-                ? "Add Youtube Video"
-                : dialogType === "twitterMention"
-                  ? "Add Twitter User"
-                  : dialogType === "image"
-                    ? "Add Image"
-                    : "Add Embedded Page"}
-            </DialogTitle>
-            <Description className="text-sm text-zinc-600 dark:text-zinc-400">
-              {dialogType === "youtube"
-                ? "Add an embedded Youtube Video into your document by pasting a YouTube URL."
-                : dialogType === "twitterMention"
-                  ? "Enter a Twitter username to mention them in your document."
-                  : dialogType === "image"
-                    ? "Upload an image or paste an image URL."
-                    : "Add an embedded page into your document by pasting a URL."}
-            </Description>
-            {dialogType === "image" && (
-              <div className="space-y-2">
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="w-full rounded-lg text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-500 border border-zinc-200 dark:border-zinc-800 text-sm outline-none px-2 py-1.5"
-                />
-                <div className="text-center text-sm text-zinc-500">or</div>
-              </div>
-            )}
-            <Input
-              value={dialogType === "twitterMention" ? username : url}
-              onChange={(e) =>
-                dialogType === "twitterMention"
-                  ? setUsername(e.target.value)
-                  : setUrl(e.target.value)
-              }
-              placeholder={
-                dialogType === "youtube"
-                  ? "https://youtube.com/watch"
-                  : dialogType === "twitterMention"
-                    ? "username"
-                    : dialogType === "image"
-                      ? "https://example.com/image.jpg"
-                      : "https://example.com"
-              }
-              className="w-full rounded-lg text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-500 border border-zinc-200 dark:border-zinc-800 text-sm outline-none px-2 py-1.5"
-            />
-            <div className="flex justify-end gap-2">
-              <Button
-                onClick={() => setIsOpen(false)}
-                className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={addContent}
-                className="rounded-lg px-3 py-1.5 text-sm font-medium bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
-              >
-                Add{" "}
-                {dialogType === "youtube"
-                  ? "Video"
-                  : dialogType === "twitterMention"
-                    ? "User"
-                    : dialogType === "image"
-                      ? "Image"
-                      : "Page"}
-              </Button>
-            </div>
-          </DialogPanel>
-        </div>
-      </Dialog>
+      <ExportDialog editor={editor} />
+      <ImportDialog editor={editor} />
+
+      <YoutubeDialog editor={editor} />
+      <EmbedDialog editor={editor} />
+      <MentionDialog editor={editor} />
+      <ImageDialog editor={editor} />
+      <LinkDialog editor={editor} />
+      <TweetDialog editor={editor} />
     </>
   );
 }
