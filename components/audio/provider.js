@@ -1,25 +1,51 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 const AudioContext = createContext();
 
 export const AudioProvider = ({ children }) => {
   const [audio, setAudio] = useState(() => {
     if (typeof window !== "undefined") {
-      const savedAudio = localStorage.getItem("audio");
-      return savedAudio ? JSON.parse(savedAudio) : true;
+      try {
+        const savedAudio = localStorage.getItem("audio");
+        return savedAudio ? JSON.parse(savedAudio) : true;
+      } catch {
+        return true;
+      }
     }
     return true;
   });
 
   useEffect(() => {
-    localStorage.setItem("audio", JSON.stringify(audio));
+    try {
+      localStorage.setItem("audio", JSON.stringify(audio));
+    } catch (error) {
+      console.error("Failed to save audio preference:", error);
+    }
   }, [audio]);
 
-  const toggleAudio = () => {
+  const toggleAudio = useCallback(() => {
     setAudio((prev) => !prev);
-  };
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key.toLowerCase() === "m") {
+        e.preventDefault();
+        toggleAudio();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggleAudio]);
 
   const value = {
     audio,
