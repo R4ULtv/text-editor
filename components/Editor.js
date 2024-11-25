@@ -57,7 +57,7 @@ import AudioButton from "@/components/audio/AudioButton";
 
 const lowlight = createLowlight(common);
 
-export default function Editor({ html }) {
+export default function Editor({ content }) {
   const playKeyboardSound = useKeyboardSound();
   const {
     setIsOpenYoutube,
@@ -109,7 +109,7 @@ export default function Editor({ html }) {
       AiGeneration,
       TweetEmbed,
     ],
-    content: html,
+    content: content,
     immediatelyRender: false,
     editorProps: {
       attributes: {
