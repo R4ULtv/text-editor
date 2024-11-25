@@ -1,7 +1,8 @@
 "use client";
+
 import { SunIcon, MoonIcon } from "@heroicons/react/16/solid";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function ThemeChanger() {
   const { theme, setTheme } = useTheme();
@@ -11,13 +12,31 @@ export default function ThemeChanger() {
     setMounted(true);
   }, []);
 
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  }, [theme, setTheme]);
+
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.ctrlKey && event.shiftKey && event.key === "L") {
+        toggleTheme();
+      }
+    },
+    [toggleTheme],
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
   if (!mounted) {
-    return
+    return;
   }
 
   return (
     <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={toggleTheme}
       aria-label="Toggle Dark Mode"
       className="flex justify-center items-center cursor-pointer group duration-150 text-gray-800 dark:text-gray-200 p-2"
     >
