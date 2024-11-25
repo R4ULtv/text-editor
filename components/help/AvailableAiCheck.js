@@ -26,11 +26,13 @@ export const AvailableAiCheck = () => {
       onClick={checkAiAvailability}
       className="px-1.5 py-0.5 bg-zinc-200 dark:bg-zinc-800 rounded-lg cursor-pointer hover:bg-zinc-300 dark:hover:bg-zinc-700"
     >
-      {availableAi === "readily"
-        ? "AI is ready to use"
-        : availableAi === "afterDownload"
-          ? "Still installing"
-          : "Check if AI is installed"}
+      {availableAi === null
+        ? "Check if AI is installed"
+        : availableAi === "no"
+          ? "AI is not installed"
+          : availableAi === "afterDownload"
+            ? "Still installing"
+            : "AI is ready to use"}
     </button>
   );
 };
