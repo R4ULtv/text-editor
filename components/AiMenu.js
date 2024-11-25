@@ -26,6 +26,7 @@ import {
   WrenchScrewdriverIcon,
 } from "@heroicons/react/16/solid";
 import { marked } from "marked";
+import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
 
@@ -482,14 +483,11 @@ export default function AiMenu({ editor }) {
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onSelect={() => {
-            window.location.href =
-              "/help/how-to-enable-ai-feature-flags-in-chrome";
-          }}
-        >
-          <GeminiIcon className="size-3.5" />
-          <span className="shrink-0 select-none">How to enable AI flags</span>
+        <DropdownMenuItem asChild>
+          <Link href="/help/how-to-enable-ai-feature-flags-in-chrome">
+            <GeminiIcon className="size-3.5" />
+            <span className="shrink-0 select-none">How to enable AI flags</span>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
