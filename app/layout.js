@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import "./globals.css";
 import ThemeChanger from "@/components/ThemeChanger";
+import { ShortcutsDialog } from "@/components/dialogs/shortcuts";
 import { Toaster } from "sonner";
 
 export const metadata = {
@@ -56,6 +57,7 @@ export default function RootLayout({ children }) {
             </header>
             {children}
           </main>
+          <ShortcutsDialog />
           <Toaster
             toastOptions={{
               classNames: {
