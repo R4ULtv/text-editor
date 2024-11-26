@@ -18,8 +18,8 @@ module.exports = {
           "blue-light": "#1BA1E3",
         },
       },
-      backgroundImage: ({ theme }) => ({
-        gemini: `linear-gradient(to bottom right, #9168C0, #5684D1, #1BA1E3)`,
+      backgroundImage: () => ({
+        gemini: `linear-gradient(in oklch to bottom right, #9168C0, #5684D1, #1BA1E3)`,
       }),
       typography: {
         DEFAULT: {
