@@ -82,9 +82,7 @@ export default function Editor({ content }) {
       Image.configure({
         allowBase64: true,
       }),
-      Link.configure({
-        openOnClick: false,
-      }),
+      Link,
       Underline,
       Code.configure({
         HTMLAttributes: {
