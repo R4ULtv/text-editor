@@ -10,6 +10,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { KeyboardIcon, KeyboardOffIcon } from "@/utils/icons";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const shortcuts = {
   ai: [
@@ -126,13 +132,24 @@ export function ShortcutsDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className="group hidden lg:flex items-center justify-center gap-1.5 fixed bottom-2 left-2 p-2 shadow-inner shadow-zinc-200 dark:shadow-zinc-800 rounded-full border border-zinc-300 dark:border-zinc-800 outline-none">
-        {!isOpen ? (
-          <KeyboardIcon className="size-4 text-zinc-700 dark:text-zinc-300 group-hover:scale-110 duration-75 transition ease-out-bounce" />
-        ) : (
-          <KeyboardOffIcon className="size-4 text-zinc-700 dark:text-zinc-300" />
-        )}
-      </DialogTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger
+              aria-label="Keyboard shortcuts"
+              className="group hidden lg:flex items-center justify-center gap-1.5 fixed bottom-2 left-2 p-2 shadow-inner shadow-zinc-200 dark:shadow-zinc-800 rounded-full border border-zinc-300 dark:border-zinc-800 outline-none"
+            >
+              {!isOpen ? (
+                <KeyboardIcon className="size-4 text-zinc-700 dark:text-zinc-300 group-hover:scale-110 duration-75 transition ease-out-bounce" />
+              ) : (
+                <KeyboardOffIcon className="size-4 text-zinc-700 dark:text-zinc-300" />
+              )}
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent side="right">Shortcuts</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       {dialogContent}
     </Dialog>
   );

@@ -54,6 +54,12 @@ import { ImportDialog } from "@/components/dialogs/import";
 
 import useKeyboardSound from "@/components/audio/useKeyboardSound";
 import AudioButton from "@/components/audio/AudioButton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 const lowlight = createLowlight(common);
 
@@ -355,29 +361,36 @@ export default function Editor({ content }) {
       <div className="h-px w-full bg-zinc-200 dark:bg-zinc-800 rounded-full my-2" />
 
       <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full mx-auto">
-        {commands.map((command, index) => (
-          <Fragment key={index}>
-            <button
-              onClick={command.onClick}
-              disabled={!command.onClick}
-              aria-label={command.label}
-              className={`rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 data-hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${
-                editor.isActive(command.action)
-                  ? "text-zinc-800 dark:text-zinc-200"
-                  : "text-zinc-500"
-              }`}
-            >
-              <div className="flex items-center justify-center gap-1.5">
-                {command.icon}
-              </div>
-            </button>
-            {command.divideAfter && (
-              <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
-            )}
-          </Fragment>
-        ))}
-        <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
-        <AudioButton />
+        <TooltipProvider>
+          {commands.map((command, index) => (
+            <Fragment key={index}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={command.onClick}
+                    disabled={!command.onClick}
+                    aria-label={command.label}
+                    className={`rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 data-hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors duration-75 ease-out p-1.5 disabled:opacity-50 disabled:cursor-not-allowed ${
+                      editor.isActive(command.action)
+                        ? "text-zinc-800 dark:text-zinc-200"
+                        : "text-zinc-500"
+                    }`}
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      {command.icon}
+                    </div>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>{command.label}</TooltipContent>
+              </Tooltip>
+              {command.divideAfter && (
+                <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
+              )}
+            </Fragment>
+          ))}
+          <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1 rounded-full shrink-0" />
+          <AudioButton />
+        </TooltipProvider>
       </div>
 
       <div
