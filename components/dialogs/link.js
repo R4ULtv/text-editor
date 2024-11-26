@@ -9,13 +9,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useDialog } from "@/components/dialogs/provider";
-import { GlobeAltIcon, LinkIcon } from "@heroicons/react/16/solid";
+import { LinkIcon } from "@heroicons/react/16/solid";
 
 export function LinkDialog({ editor }) {
   const { isOpenLink, setIsOpenLink } = useDialog();
   const [link, setLink] = useState("");
   const [linkText, setLinkText] = useState("");
-  const [error, setError] = useState(false);
 
   const handlerInsert = (e) => {
     if (!link) {
