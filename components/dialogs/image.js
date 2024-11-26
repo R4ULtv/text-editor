@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,41 +14,53 @@ import { PhotoIcon } from "@heroicons/react/16/solid";
 export function ImageDialog({ editor }) {
   const { isOpenImage, setIsOpenImage } = useDialog();
   const [imageUrl, setImageUrl] = useState("");
-  const [error, setError] = useState("");
   const [altText, setAltText] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleImageUrlChange = (e) => {
+  const handleImageUrlChange = useCallback((e) => {
     setImageUrl(e.target.value);
-  };
+  }, []);
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
+  const handleFileSelect = useCallback((e) => {
+    const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
       setSelectedFile(file);
     }
+  }, []);
+
+  const resetState = useCallback(() => {
+    setImageUrl("");
+    setAltText("");
+    setSelectedFile(null);
+  }, []);
+
+  const readFileAsDataUrl = async (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   };
 
-  const handlerInsert = (e) => {
-    if (!imageUrl) {
-      return;
+  const handlerInsert = useCallback(async () => {
+    let img = imageUrl;
+    if (selectedFile) {
+      img = await readFileAsDataUrl(selectedFile);
     }
+
+    if (!img) return;
+
     editor.commands.setImage({
-      src: imageUrl,
+      src: img,
       alt: altText,
       width: "100%",
       height: "auto",
     });
-    setImageUrl("");
-    setAltText("");
-    setSelectedFile(null);
+
+    resetState();
     setIsOpenImage(false);
-  };
+  }, [imageUrl, altText, selectedFile, editor, setIsOpenImage]);
 
   return (
     <Dialog open={isOpenImage} onOpenChange={setIsOpenImage}>
@@ -112,7 +124,7 @@ export function ImageDialog({ editor }) {
           </div>
           <div className="mt-4 flex items-center justify-end">
             <button
-              onClick={() => handlerInsert()}
+              onClick={handlerInsert}
               className="text-sm font-semibold text-zinc-200 dark:text-zinc-800 bg-zinc-800 dark:bg-zinc-200 hover:border-zinc-300 hover:dark:border-zinc-700 px-2 py-1.5 rounded-lg"
             >
               Insert Image
