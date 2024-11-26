@@ -25,7 +25,7 @@ export const json = {
     {
       type: "image",
       attrs: {
-        src: "/og-image.png",
+        src: "/og-image.webp",
         alt: "Text Editor",
         title: null,
       },

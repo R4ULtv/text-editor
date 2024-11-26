@@ -18,7 +18,7 @@ export const metadata = {
       "Create blog posts or articles with ease in a simple text editor and export to markdown, HTML, or doc formats",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.webp",
         width: 843,
         height: 441,
       },

@@ -1,4 +1,4 @@
-<img alt="Text Editor Interface" src="/public/og-image.png">
+<img alt="Text Editor Interface" src="/public/og-image.webp">
 
 A sophisticated rich text editor built with modern web technologies, featuring an extensive toolbar, AI assistance, and multimedia embedding capabilities.
 Perfect for writers, developers, and content creators who need a powerful yet intuitive editing experience.
