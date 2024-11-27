@@ -9,11 +9,11 @@ import { Toaster } from "sonner";
 
 export const metadata = {
   metadataBase: "https://editor.raulcarini.dev",
-  title: "Text Editor | by Raul Carini",
+  title: "Texta - Editor",
   description:
     "Create blog posts or articles with ease in a simple text editor and export to markdown, HTML, or doc formats",
   openGraph: {
-    title: "Text Editor | by Raul Carini",
+    title: "Texta - Editor",
     description:
       "Create blog posts or articles with ease in a simple text editor and export to markdown, HTML, or doc formats",
     images: [
@@ -47,7 +47,7 @@ export default function RootLayout({ children }) {
                   href={"/"}
                   className="text-base inline-block font-medium no-underline text-zinc-800 dark:text-zinc-200"
                 >
-                  Text Editor
+                  Texta - Editor
                 </Link>
                 <span className="text-base font-medium leading-none text-zinc-600 dark:text-zinc-400">
                   Create blogging content with ease ✨
