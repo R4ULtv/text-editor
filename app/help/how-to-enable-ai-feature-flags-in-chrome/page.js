@@ -122,6 +122,13 @@ export default function Page() {
           your own risk.
         </p>
       </div>
+
+      <div className="my-6 p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg flex items-center gap-2">
+        <p className="text-sm text-zinc-800 dark:text-zinc-200">
+          After restarting, check if the AI features are available:
+        </p>
+        <AvailableAiCheck />
+      </div>
       <ol className="space-y-6">
         <li className="flex items-start">
           <CheckItem number={5} />
@@ -133,7 +140,6 @@ export default function Page() {
               Wait for Chrome to download and install the necessary AI
               components. This may take a few minutes.
             </p>
-            <AvailableAiCheck />
           </div>
         </li>
         <li className="flex items-start">
