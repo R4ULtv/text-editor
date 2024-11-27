@@ -9,7 +9,7 @@ export const json = {
       content: [
         {
           type: "text",
-          text: "Elevate Your Blogging with Markdown on Text Editor",
+          text: "Elevate Your Blogging with Markdown on Texta",
         },
       ],
     },
@@ -18,22 +18,101 @@ export const json = {
       content: [
         {
           type: "text",
-          text: "As a blogger, you know the importance of crafting engaging and visually appealing content. Text Editor is the perfect tool to help you do just that, with the power of markdown at your fingertips. In this post, we'll explore how you can use markdown to elevate your blogging experience and create professional-looking blog posts with ease.",
+          text: "As a blogger, you know the importance of crafting engaging and visually appealing content. ",
+        },
+        {
+          type: "text",
+          marks: [
+            {
+              type: "bold",
+            },
+          ],
+          text: "Texta - Editor",
+        },
+        {
+          type: "text",
+          text: ' is the perfect tool to help you do just that, combining intuitive features with the elegance of markdown. The name "Texta" has its roots in the Latin verb ',
+        },
+        {
+          type: "text",
+          marks: [
+            {
+              type: "italic",
+            },
+          ],
+          text: "texere",
+        },
+        {
+          type: "text",
+          text: ", meaning ",
+        },
+        {
+          type: "text",
+          marks: [
+            {
+              type: "italic",
+            },
+          ],
+          text: "to weave",
+        },
+        {
+          type: "text",
+          text: " or ",
+        },
+        {
+          type: "text",
+          marks: [
+            {
+              type: "italic",
+            },
+          ],
+          text: "to construct",
+        },
+        {
+          type: "text",
+          text: '. In Latin, "texta" refers to something ',
+        },
+        {
+          type: "text",
+          marks: [
+            {
+              type: "italic",
+            },
+          ],
+          text: "woven",
+        },
+        {
+          type: "text",
+          text: " or ",
+        },
+        {
+          type: "text",
+          marks: [
+            {
+              type: "italic",
+            },
+          ],
+          text: "fabricated",
+        },
+        {
+          type: "text",
+          text: ', much like the tapestry of words and ideas you craft in your blogs. This heritage beautifully reflects the essence of "text" itself, which originally described something woven, symbolizing the art of storytelling.',
         },
       ],
     },
     {
-      type: "image",
-      attrs: {
-        src: "/og-image.webp",
-        alt: "Text Editor",
-        title: null,
-      },
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "In this post, we'll explore how you can use markdown to elevate your blogging experience and create professional-looking blog posts with ease.",
+        },
+      ],
     },
     {
       type: "heading",
       attrs: {
-        level: 2,
+        level: 3,
       },
       content: [
         {
@@ -100,14 +179,22 @@ export const json = {
       ],
     },
     {
+      type: "image",
+      attrs: {
+        src: "/og-image.webp",
+        alt: "Texta - Editor",
+        title: "Texta - Editor",
+      },
+    },
+    {
       type: "heading",
       attrs: {
-        level: 2,
+        level: 3,
       },
       content: [
         {
           type: "text",
-          text: "Blogging with Markdown on Text Editor",
+          text: "Blogging with Markdown on Texta",
         },
       ],
     },
@@ -116,7 +203,7 @@ export const json = {
       content: [
         {
           type: "text",
-          text: "Text Editor, the ultimate tool for content creators, makes it easy to leverage the power of markdown for your blogging needs. Here's a quick overview of how you can use markdown on Text Editor:",
+          text: "Texta, the ultimate tool for content creators, makes it easy to leverage the power of markdown for your blogging needs. Here's a quick overview of how you can use markdown on Text Editor:",
         },
       ],
     },
@@ -402,7 +489,7 @@ export const json = {
     {
       type: "heading",
       attrs: {
-        level: 2,
+        level: 3,
       },
       content: [
         {
@@ -437,7 +524,7 @@ export const json = {
       content: [
         {
           type: "text",
-          text: "About Text Editor",
+          text: "About Texta - Editor",
         },
       ],
     },
@@ -446,7 +533,7 @@ export const json = {
       content: [
         {
           type: "text",
-          text: "Text Editor is a revolutionary content creation platform that empowers writers, bloggers, and creatives to bring their ideas to life. With its intuitive markdown support, robust collaboration features, and a range of customization options, Text Editor is the go-to tool for anyone looking to streamline their content creation workflow.",
+          text: "Texta - Editor is a revolutionary content creation platform that empowers writers, bloggers, and creatives to bring their ideas to life. With its intuitive markdown support, robust collaboration features, and a range of customization options, Text Editor is the go-to tool for anyone looking to streamline their content creation workflow.",
         },
       ],
     },
