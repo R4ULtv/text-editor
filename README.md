@@ -41,7 +41,7 @@ Perfect for writers, developers, and content creators who need a powerful yet in
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/text-editor.git
+   git clone https://github.com/r4ultv/text-editor.git
    ```
 
 2. Navigate to the project directory:
