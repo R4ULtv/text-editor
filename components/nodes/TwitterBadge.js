@@ -15,6 +15,12 @@ const TwitterBadgeComponent = ({ node }) => {
 
   if (!userData) return null;
 
+  const handleClick = (e) => {
+    if (!e.ctrlKey) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <NodeViewWrapper as="span">
       <a
@@ -22,6 +28,7 @@ const TwitterBadgeComponent = ({ node }) => {
         rel="noopener noreferrer"
         className="inline-flex not-prose items-center rounded border border-zinc-200 bg-zinc-50 p-1 text-sm leading-4 text-zinc-700 no-underline dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
         href={`https://x.com/${userData.username}`}
+        onClick={handleClick}
       >
         <img
           alt={`profile image ${userData.username}`}
