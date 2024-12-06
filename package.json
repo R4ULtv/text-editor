@@ -6,8 +6,7 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "scan": "next dev & npx react-scan@latest localhost:3000"
+    "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
