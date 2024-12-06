@@ -14,7 +14,6 @@ import { GlobeAltIcon } from "@heroicons/react/16/solid";
 export function EmbedDialog({ editor }) {
   const { isOpenEmbed, setIsOpenEmbed } = useDialog();
   const [embedUrl, setEmbedUrl] = useState("");
-  const [error, setError] = useState("");
   const [width, setWidth] = useState("100%");
   const [height, setHeight] = useState("400px");
 
@@ -23,6 +22,7 @@ export function EmbedDialog({ editor }) {
   };
 
   const handlerInsert = (e) => {
+    e.preventDefault();
     if (!embedUrl) {
       return;
     }
@@ -48,7 +48,7 @@ export function EmbedDialog({ editor }) {
             Add an embedded page into your document by pasting a URL.
           </DialogDescription>
         </DialogHeader>
-        <div className="py-1.5 w-full">
+        <form className="py-1.5 w-full" onSubmit={(e) => handlerInsert(e)}>
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="embed-url"
@@ -99,13 +99,14 @@ export function EmbedDialog({ editor }) {
           </div>
           <div className="mt-4 flex items-center justify-end">
             <button
-              onClick={() => handlerInsert()}
-              className="text-sm font-semibold text-zinc-200 dark:text-zinc-800 bg-zinc-800 dark:bg-zinc-200 hover:border-zinc-300 hover:dark:border-zinc-700 px-2 py-1.5 rounded-lg"
+              type="submit"
+              disabled={!embedUrl}
+              className="text-sm font-semibold text-zinc-200 dark:text-zinc-800 bg-zinc-800 dark:bg-zinc-200 hover:border-zinc-300 hover:dark:border-zinc-700 px-2 py-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Insert Embed
             </button>
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

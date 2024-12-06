@@ -25,6 +25,7 @@ export function YoutubeDialog({ editor }) {
   };
 
   const handlerInsert = (e) => {
+    e.preventDefault();
     if (!error && !youtubeUrl) {
       return;
     }
@@ -48,7 +49,7 @@ export function YoutubeDialog({ editor }) {
             YouTube URL.
           </DialogDescription>
         </DialogHeader>
-        <div className="py-1.5">
+        <form className="py-1.5 w-full" onSubmit={(e) => handlerInsert(e)}>
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="youtube-url"
@@ -67,13 +68,14 @@ export function YoutubeDialog({ editor }) {
           </div>
           <div className="mt-4 flex items-center justify-end">
             <button
-              onClick={() => handlerInsert()}
-              className="text-sm font-semibold text-zinc-200 dark:text-zinc-800 bg-zinc-800 dark:bg-zinc-200 hover:border-zinc-300 hover:dark:border-zinc-700 px-2 py-1.5 rounded-lg"
+              type="submit"
+              disabled={!youtubeUrl}
+              className="text-sm font-semibold text-zinc-200 dark:text-zinc-800 bg-zinc-800 dark:bg-zinc-200 hover:border-zinc-300 hover:dark:border-zinc-700 px-2 py-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Insert Youtube
             </button>
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

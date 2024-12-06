@@ -17,6 +17,7 @@ export function LinkDialog({ editor }) {
   const [linkText, setLinkText] = useState("");
 
   const handlerInsert = (e) => {
+    e.preventDefault();
     if (!link) {
       return;
     }
@@ -64,7 +65,7 @@ export function LinkDialog({ editor }) {
             links to internal or external resources.
           </DialogDescription>
         </DialogHeader>
-        <div className="py-1.5">
+        <form className="py-1.5 w-full" onSubmit={(e) => handlerInsert(e)}>
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="link"
@@ -97,13 +98,14 @@ export function LinkDialog({ editor }) {
           </div>
           <div className="mt-4 flex items-center justify-end">
             <button
-              onClick={() => handlerInsert()}
-              className="text-sm font-semibold text-zinc-200 dark:text-zinc-800 bg-zinc-800 dark:bg-zinc-200 hover:border-zinc-300 hover:dark:border-zinc-700 px-2 py-1.5 rounded-lg"
+              type="submit"
+              disabled={!link}
+              className="text-sm font-semibold text-zinc-200 dark:text-zinc-800 bg-zinc-800 dark:bg-zinc-200 hover:border-zinc-300 hover:dark:border-zinc-700 px-2 py-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Insert Link
             </button>
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
