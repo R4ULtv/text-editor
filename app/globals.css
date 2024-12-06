@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.dark {
+    scrollbar-width: thin;
+    scrollbar-color: #52525b transparent;
+}
+
+.light {
+    scrollbar-width: thin;
+    scrollbar-color: #a1a1aa transparent;
+}
+
 .hljs-emphasis {
     font-style: italic;
 }
