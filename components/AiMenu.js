@@ -37,16 +37,20 @@ const ai = async (type, options) => {
     summarizer: window.ai.summarizer,
     rewriter: window.ai.rewriter,
     writer: window.ai.writer,
+    languageDetector: window.ai.languageDetector,
+    translator: window.ai.translator,
   };
 
   const tool = tools[type];
   if (!tool) throw new Error(`${type} is not available`);
 
-  // TODO: check if AI available (removed in v133)
-  // const capabilities = await tool.capabilities();
-  // if (capabilities.available !== "readily") {
-  //   throw new Error(`${type} is not available`);
-  // }
+  // TODO: remove this `rewriter` and `writer` once chrome re-add the `.capabilities()`
+  if (type !== "rewriter" && type !== "writer") {
+    const capabilities = await tool.capabilities();
+    if (capabilities.available !== "readily") {
+      throw new Error(`${type} is not properly enabled`);
+    }
+  }
 
   return await tool.create(options);
 };
@@ -220,25 +224,15 @@ export default function AiMenu({ editor }) {
       editor.commands.deleteSelection();
       editor.commands.setNode("aiGeneration", { text: "", type: "translate" });
 
-      const detector = await window.translation.createDetector();
+      const detector = await ai("languageDetector");
       const [{ detectedLanguage: from }] =
         await detector.detect(selectedContent);
 
-      const canTranslate = await window.translation.canTranslate({
+      const translator = await ai("translator", {
         sourceLanguage: from,
         targetLanguage: target,
       });
 
-      if (!canTranslate === "readily") {
-        throw new Error(
-          "Translation is not available for the selected language",
-        );
-      }
-
-      const translator = await window.translation.createTranslator({
-        sourceLanguage: from,
-        targetLanguage: target,
-      });
       const translatedText = await translator.translate(selectedContent);
 
       editor.commands.deleteNode("aiGeneration");
