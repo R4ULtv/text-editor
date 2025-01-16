@@ -1,7 +1,6 @@
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
-import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
 import ThemeChanger from "@/components/ThemeChanger";
@@ -72,7 +71,6 @@ export default function RootLayout({ children }) {
           />
         </ThemeProvider>
       </body>
-      <Analytics />
     </html>
   );
 }
