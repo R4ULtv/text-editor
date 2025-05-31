@@ -344,14 +344,14 @@ export default function Editor({ content }) {
             onClick={() => setIsOpenImport(true)}
             className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-200 hover:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ArrowUpTrayIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
+            <ArrowDownTrayIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
             Import
           </button>
           <button
             onClick={() => setIsOpenExport(true)}
             className="group rounded-lg text-xs font-semibold border flex items-center gap-1 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-200 hover:text-zinc-800 transition-colors duration-75 ease-out px-1.5 h-7 text-zinc-600 dark:text-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ArrowDownTrayIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
+            <ArrowUpTrayIcon className="size-3.5 group-data-[hover]:scale-110 transition ease-out" />
             Export
           </button>
         </div>
