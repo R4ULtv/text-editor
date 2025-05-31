@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useDialog } from "@/components/dialogs/provider";
 import {
-  ArrowDownTrayIcon,
+  ArrowUpTrayIcon,
   DocumentTextIcon,
   XMarkIcon,
 } from "@heroicons/react/16/solid";
@@ -97,7 +97,7 @@ export function ExportDialog({ editor }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1.5">
-            <ArrowDownTrayIcon className="size-4" /> Export Document
+            <ArrowUpTrayIcon className="size-4" /> Export Document
           </DialogTitle>
           <DialogDescription>
             Choose the export format for your document and download it.
