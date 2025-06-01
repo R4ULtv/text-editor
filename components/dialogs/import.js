@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useDialog } from "@/components/dialogs/provider";
-import { ArrowUpTrayIcon } from "@heroicons/react/16/solid";
+import { ArrowDownTrayIcon } from "@heroicons/react/16/solid";
 import { useDropzone } from "react-dropzone";
 
 export const ImportDialog = memo(({ editor }) => {
@@ -54,7 +54,7 @@ export const ImportDialog = memo(({ editor }) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1.5">
-            <ArrowUpTrayIcon className="size-4" /> Import Document
+            <ArrowDownTrayIcon className="size-4" /> Import Document
           </DialogTitle>
           <DialogDescription>
             Import your document to the editor. We support HTML, Markdown and
